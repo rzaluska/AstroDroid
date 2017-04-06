@@ -2,6 +2,7 @@ package io.github.luxurypro.astrodroid;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 public class DateUtil {
     public static double toJulianDay(Calendar calendar) {
@@ -19,4 +20,17 @@ public class DateUtil {
                 day + ((hour + ((minute + (second / 60.0)) / 60.0)) / 24.0) +
                 1721013.5 - ((0.5 * extra) / Math.abs(extra)) + 0.5;
     }
+
+    public  static double toJ2000(Calendar calendar) {
+        return toJulianDay(calendar) - 2451545.0;
+    }
+
+    public static Calendar nowUTC() {
+        return Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+    }
+    public static double getEarthSiderialTime(double J2000, double longitude)
+    {
+        return  MathUtil.normalzeAngle(Math.toRadians(280.147) + Math.toRadians(360.9856235) * J2000 + longitude);
+    }
+
 }
