@@ -6,28 +6,24 @@ import io.github.luxurypro.astrodroid.MathUtil;
 public class Sun {
     private double azimunt;
     private double altitude;
+
     public Sun(double JulianDay, double latitude, double longitude) {
-        this.azimunt = 0;
-        this.altitude = 0;
         double n = JulianDay - 2451545.0;
-        double tilt = Math.toRadians(23.439) - Math.toRadians(0.0000004) * n;
-        double meanLongitude = Math.toRadians(280.46) + Math.toRadians(0.9856474) * n;
-        meanLongitude = MathUtil.normalzeAngle(meanLongitude);
-        double meanAnomaly = Math.toRadians(357.528) + Math.toRadians(0.9856003) * n;
-        meanAnomaly = MathUtil.normalzeAngle(meanAnomaly);
-        double elipticLongitude = meanLongitude + Math.toRadians(1.915) * Math.sin(meanAnomaly) + Math.toRadians(0.020) * Math.sin(2 * meanAnomaly);
-        double elipticLatitude = 0;
-        double distanceToSun = 1.00014 - 0.01671 * Math.cos(meanAnomaly) - 0.00014 * Math.cos(2 * meanAnomaly);
+        double meanAnomaly = MathUtil.normalzeAngle(Math.toRadians(357.5291) + Math.toRadians(0.98560028) * n);
+        double equationOfCenter = Math.toRadians(1.9148) * Math.sin(meanAnomaly) + Math.toRadians(0.020) * Math.sin(2 * meanAnomaly) + Math.toRadians(0.0003) * Math.sin(3 * meanAnomaly);
+        double trueAnomaly = meanAnomaly + equationOfCenter;
+        double meanLongitude = meanAnomaly + Math.toRadians(102.9373);
+        double elipticLongitude = meanLongitude + equationOfCenter;
+        double sunMeanLongitude = meanLongitude + Math.toRadians(180);
+        double sunElipticalLongitude = MathUtil.normalzeAngle(sunMeanLongitude + equationOfCenter);
+        double rightAscension = Math.atan2(Math.sin(sunElipticalLongitude) * Math.cos(Math.toRadians(23.4393)), Math.cos(sunElipticalLongitude));
+        double declination = Math.asin(Math.sin(sunElipticalLongitude * Math.sin(Math.toRadians(23.4393))));
 
-        // Equatorial coordinates
-        double rightAscension = Math.atan2(Math.cos(tilt) * Math.sin(elipticLongitude), Math.cos(elipticLongitude));
-        double declination = Math.asin(Math.sin(tilt) * Math.sin(elipticLongitude));
-
-        double siderialTime = DateUtil.getEarthSiderialTime(n, longitude);
+        double siderialTime = MathUtil.normalzeAngle(Math.toRadians(280.1470) + Math.toRadians(360.9856235) * n + longitude);
 
         double hourAngle = siderialTime - rightAscension;
-        this.azimunt = Math.PI + MathUtil.normalzeAngle(Math.atan2(Math.sin(hourAngle), Math.cos(hourAngle) * Math.sin(latitude) - Math.tan(declination) * Math.cos(latitude)));
-        this.altitude = Math.PI/2.0 - Math.acos(Math.sin(latitude) * Math.sin(declination) + Math.cos(latitude) * Math.cos(declination) * Math.cos(hourAngle));
+        this.azimunt = MathUtil.normalzeAngle(Math.atan2(Math.sin(hourAngle), Math.cos(hourAngle) * Math.sin(latitude) - Math.tan(declination) * Math.cos(latitude)));
+        this.altitude = Math.asin(Math.sin(latitude) * Math.sin(declination) + Math.cos(latitude) * Math.cos(declination) * Math.cos(hourAngle));
     }
 
     public double getAzimunt() {

@@ -31,11 +31,13 @@ public class SkyView extends View {
         this.paint.setColor(Color.parseColor("#5194ff"));
         canvas.drawCircle(x / 2, y / 2, radius, paint);
         this.paint.setColor(Color.YELLOW);
+        if (altitude < 0)
+            this.paint.setColor(Color.GRAY);
         double r = radius * Math.cos(altitude);
-        double alpha = azimunt - Math.PI/2;
+        double alpha = azimunt + Math.PI / 2;
         int sx = (int) (r * Math.cos(alpha));
         int sy = (int) (r * Math.sin(alpha));
-        canvas.drawCircle(x/2 + sx, y/2 - sy, (float) (radius * 0.1), paint);
+        canvas.drawCircle(x / 2 + sx, y / 2 + sy, (float) (radius * 0.1), paint);
     }
 
     public void setData(double azimunt, double altitude) {
