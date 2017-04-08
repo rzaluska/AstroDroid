@@ -1,7 +1,7 @@
 package io.github.luxurypro.astrodroid;
 
 public class LowPassFilter {
-    private double smoothingFactor = 0.99;
+    private double smoothingFactor = 0.8;
     private double lastSin = 0;
     private double lastCos = 0;
 

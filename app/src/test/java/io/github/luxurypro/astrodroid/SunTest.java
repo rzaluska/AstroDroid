@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
+import io.github.luxurypro.astrodroid.astronomy.Moon;
 import io.github.luxurypro.astrodroid.astronomy.Sun;
 
 public class SunTest {
@@ -23,6 +24,14 @@ public class SunTest {
         Calendar date = new GregorianCalendar(TimeZone.getTimeZone("UTC"));
         double julianDay = DateUtil.toJulianDay(date);
         Sun sun = new Sun(julianDay, Math.toRadians(52.22970), Math.toRadians(21.01220));
+    }
+
+    @Test
+    public void getMoon() throws Exception {
+        Calendar date = new GregorianCalendar(TimeZone.getTimeZone("UTC"));
+        date.set(2017, 0, 1, 12, 0);
+        double julianDay = DateUtil.toJulianDay(date);
+        Moon moon = new Moon(julianDay, Math.toRadians(52.22970), Math.toRadians(21.01220));
     }
 
     @Test

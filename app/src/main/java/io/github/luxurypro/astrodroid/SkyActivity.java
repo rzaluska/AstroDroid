@@ -5,17 +5,14 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.icu.util.GregorianCalendar;
 import android.os.Handler;
-import android.provider.CalendarContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.SeekBar;
 
 import java.util.Calendar;
 
-import io.github.luxurypro.astrodroid.R;
+import io.github.luxurypro.astrodroid.astronomy.Moon;
 import io.github.luxurypro.astrodroid.astronomy.Sun;
 
 public class SkyActivity extends AppCompatActivity implements SensorEventListener {
@@ -41,13 +38,11 @@ public class SkyActivity extends AppCompatActivity implements SensorEventListene
             public void run() {
                 updateOrientationAngles();
                 Calendar now = DateUtil.nowUTC();
-                Sun sun = new Sun(DateUtil.toJulianDay(now) + progress * 0.01, Math.toRadians(52.229676), Math.toRadians(21.012229));
-                double azimunt = sun.getAzimunt() - filter.getValue();
-                double altitude = sun.getAltitude();
+                Sun sun = new Sun(DateUtil.toJulianDay(now) + progress * 0.01, Math.toRadians(52.229676), Math.toRadians(21.012229), 0);
+                Moon moon = new Moon(DateUtil.toJulianDay(now) + progress * 0.01, Math.toRadians(52.229676), Math.toRadians(21.012229), 0);
                 SkyView view = (SkyView) findViewById(R.id.SkyView);
-                if (filter != null)
-                    view.setData(azimunt, altitude);
-                handler.postDelayed(runnable, 16);
+                view.setData(sun, moon, filter.getValue());
+                handler.postDelayed(runnable, 25);
             }
         };
     }
