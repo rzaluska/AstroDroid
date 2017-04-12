@@ -34,8 +34,7 @@ public class DateUtil {
         return Calendar.getInstance(TimeZone.getTimeZone("UTC"));
     }
 
-    public static double getLocalSiderialTime(double J2000, double longitude) {
+    public static double getEarthLocalSiderialTime(double J2000, double longitude) {
         return MathUtil.normalzeAngle(Math.toRadians(280.147) + Math.toRadians(360.9856235) * J2000 + longitude);
     }
-
 }

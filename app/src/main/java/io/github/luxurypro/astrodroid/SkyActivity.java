@@ -12,7 +12,9 @@ import android.widget.SeekBar;
 
 import java.util.Calendar;
 
+import io.github.luxurypro.astrodroid.astronomy.HorizontalCoordinates;
 import io.github.luxurypro.astrodroid.astronomy.Moon;
+import io.github.luxurypro.astrodroid.astronomy.Star;
 import io.github.luxurypro.astrodroid.astronomy.Sun;
 
 public class SkyActivity extends AppCompatActivity implements SensorEventListener {
@@ -38,11 +40,15 @@ public class SkyActivity extends AppCompatActivity implements SensorEventListene
             public void run() {
                 updateOrientationAngles();
                 Calendar now = DateUtil.nowUTC();
-                Sun sun = new Sun(DateUtil.toJulianDay(now) + progress * 0.01, Math.toRadians(52.229676), Math.toRadians(21.012229), 0);
-                Moon moon = new Moon(DateUtil.toJulianDay(now) + progress * 0.01, Math.toRadians(52.229676), Math.toRadians(21.012229), 0);
+                Sun sun = new Sun(DateUtil.toJulianDay(now) + progress * 0.01, Math.toRadians(52.229676), Math.toRadians(21.012229));
+                Moon moon = new Moon(DateUtil.toJulianDay(now) + progress * 0.01, Math.toRadians(52.229676), Math.toRadians(21.012229));
+                double rightAscension = AngleUtil.fromHourMinSec(02, 31, 49.09);
+                double declination = AngleUtil.fromDegMinSec(89, 15, 50.8);
+                Star polaris = new Star(rightAscension, declination);
+                HorizontalCoordinates horizontalCoordinates = polaris.getHorizontalCoordinates(DateUtil.toJulianDay(now) + progress * 0.1, Math.toRadians(52.229676), Math.toRadians(21.012229));
                 SkyView view = (SkyView) findViewById(R.id.SkyView);
-                view.setData(sun, moon, filter.getValue());
-                handler.postDelayed(runnable, 25);
+                view.setData(sun, moon, horizontalCoordinates, filter.getValue());
+                handler.postDelayed(runnable, 100);
             }
         };
     }
