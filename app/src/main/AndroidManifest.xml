@@ -25,6 +25,8 @@
             android:name=".SkyActivity"
             android:label="Sky View"
             android:parentActivityName=".MainActivity" />
+
+        <service android:name=".LocationProviderService" />
     </application>
 
 </manifest>

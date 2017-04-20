@@ -41,6 +41,14 @@ public class SunTest {
         double julianDay = DateUtil.toJulianDay(date);
         Assert.assertEquals(2453097.0, julianDay, 0.01);
 
+        Calendar testDate = DateUtil.julianDayToCalendar(2453097.0);
+        Assert.assertEquals(testDate.get(Calendar.YEAR), 2004);
+        Assert.assertEquals(testDate.get(Calendar.MONTH), 3);
+        Assert.assertEquals(testDate.get(Calendar.DAY_OF_MONTH), 1);
+        Assert.assertEquals(testDate.get(Calendar.HOUR_OF_DAY), 12);
+        Assert.assertEquals(testDate.get(Calendar.MINUTE), 0);
+
+
         date.set(1858, 10, 16, 12, 0);
         julianDay = DateUtil.toJulianDay(date);
         Assert.assertEquals(2400000.0, julianDay, 0.01);
