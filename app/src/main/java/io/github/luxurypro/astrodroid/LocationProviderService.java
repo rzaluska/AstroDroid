@@ -5,6 +5,7 @@ import android.Manifest;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -13,6 +14,8 @@ import android.location.LocationProvider;
 import android.os.Binder;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 
@@ -27,7 +30,9 @@ public class LocationProviderService extends Service implements LocationListener
     }
 
     public boolean isEnabled() {
-        return isGPSEnabled;
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean manualLocation = sharedPref.getBoolean("manual_location", false);
+        return isGPSEnabled || manualLocation;
     }
 
     @Override
@@ -38,6 +43,16 @@ public class LocationProviderService extends Service implements LocationListener
     }
 
     public Location getLastLocation() {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean manualLocation = sharedPref.getBoolean("manual_location", false);
+        if (manualLocation) {
+            float latitude = Float.parseFloat(sharedPref.getString("latitude", "0"));
+            float longitude = Float.parseFloat(sharedPref.getString("longitude", "0"));
+            Location location = new Location(LocationManager.PASSIVE_PROVIDER);
+            location.setLatitude(latitude);
+            location.setLongitude(longitude);
+            return location;
+        }
         return this.lastLocation;
     }
 
@@ -72,6 +87,10 @@ public class LocationProviderService extends Service implements LocationListener
     }
 
     public void connectToGPS() {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean manualLocation = sharedPref.getBoolean("manual_location", false);
+        if (manualLocation)
+            return;
         this.isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         this.locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1, this);
         this.lastLocation = this.locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);

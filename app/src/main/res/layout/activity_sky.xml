@@ -20,7 +20,7 @@
             android:id="@+id/currentDate"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="16dp"
+            android:layout_margin="8dp"
             android:layout_weight="0.80"
             android:gravity="center"
             android:onClick="onChangeDateTime"
@@ -31,7 +31,11 @@
             android:id="@+id/rate"
             android:layout_width="100dp"
             android:layout_height="match_parent"
-            android:text="" />
+            android:layout_margin="8dp"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:onClick="resetRate"
+            android:textSize="24sp" />
 
     </LinearLayout>
 
@@ -71,6 +75,7 @@
             android:layout_weight="0.25"
             android:background="@drawable/ic_fast_forward_black_24dp"
             android:onClick="increaseRate" />
+
     </LinearLayout>
 
 

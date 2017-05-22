@@ -1,6 +1,5 @@
 package io.github.luxurypro.astrodroid;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ComponentName;
@@ -9,7 +8,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.res.AssetManager;
-import android.graphics.drawable.Drawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -21,7 +19,6 @@ import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -31,25 +28,20 @@ import android.widget.TimePicker;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
-import org.joda.time.Duration;
-import org.joda.time.Instant;
-import org.joda.time.Interval;
-import org.joda.time.chrono.JulianChronology;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.TimeZone;
 
-import io.github.luxurypro.astrodroid.astronomy.HorizontalCoordinates;
 import io.github.luxurypro.astrodroid.astronomy.Moon;
 import io.github.luxurypro.astrodroid.astronomy.SkyMap;
-import io.github.luxurypro.astrodroid.astronomy.Star;
 import io.github.luxurypro.astrodroid.astronomy.Sun;
 
 public class SkyActivity extends AppCompatActivity implements SensorEventListener {
+    private final TimeManager timeManager;
     private Handler handler;
     private Runnable runnable;
     private SeekBar seekBar;
@@ -96,40 +88,27 @@ public class SkyActivity extends AppCompatActivity implements SensorEventListene
     };
     private boolean mIsBoundToService;
     private int previousRate = 1;
-    private Instant previousTime = new Instant();
-    private DateTime currentDate = new DateTime().withZone(DateTimeZone.UTC);
     private boolean stop;
 
     public SkyActivity() throws IOException, JSONException {
         handler = new Handler();
+        timeManager = new TimeManager();
         runnable = new Runnable() {
             @Override
             public void run() {
                 try {
+                    timeManager.tick(rate);
+                    updateOrientationAngles();
+                    updateDateTimeText();
+                    double julianDate = timeManager.getJulianDate();
                     Location location = locationProviderService.getLastLocation();
                     double latitude = Math.toRadians(location.getLatitude());
                     double longitude = Math.toRadians(location.getLongitude());
-                    updateOrientationAngles();
-                    Instant instantNow = new Instant();
-                    Interval delta = new Interval(previousTime, instantNow);
-                    Duration duration = delta.toDuration();
-                    long milis = duration.getMillis();
-                    long scaledDuration = milis * rate;
-                    Log.v("SKY", String.valueOf(scaledDuration));
-                    previousTime = instantNow;
-                    currentDate = currentDate.withDurationAdded(scaledDuration, 1);
-                    GregorianCalendar gregorianCalendar = currentDate.toGregorianCalendar();
-                    gregorianCalendar.setTimeZone(TimeZone.getTimeZone("UTC"));
-                    double julianDate = DateUtil.toJulianDay(currentDate.toGregorianCalendar());
                     Sun sun = new Sun(julianDate, latitude, longitude);
                     Moon moon = new Moon(julianDate, latitude, longitude);
                     SkyView view = (SkyView) findViewById(R.id.SkyView);
                     skyMap.updatePosition(julianDate, latitude, longitude);
                     view.setData(sun, moon, skyMap, filter.getValue());
-                    TextView currentdateTime = (TextView) findViewById(R.id.currentDate);
-                    currentdateTime.setText(currentDate.withZone(DateTimeZone.getDefault()).toString());
-                    TextView rateView = (TextView) findViewById(R.id.rate);
-                    rateView.setText("x" + String.valueOf(rate));
                 } catch (Exception e) {
                 } finally {
                     if (!stop)
@@ -153,6 +132,8 @@ public class SkyActivity extends AppCompatActivity implements SensorEventListene
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mMagnetometer = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
         handler.post(runnable);
+        updateDateTimeText();
+        updateRateText();
     }
 
     @Override
@@ -217,9 +198,15 @@ public class SkyActivity extends AppCompatActivity implements SensorEventListene
         final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.date_time_picker_layout);
         dialog.setCancelable(true);
+
+        final DateTime currentTime = timeManager.getCurrentDateTimeUTC().withZone(DateTimeZone.getDefault());
         final TimePicker timePicker = (TimePicker) dialog.findViewById(R.id.timePicker);
         timePicker.setIs24HourView(DateFormat.is24HourFormat(this));
+        timePicker.setHour(currentTime.getHourOfDay());
+        timePicker.setMinute(currentTime.getMinuteOfHour());
         final DatePicker datePicker = (DatePicker) dialog.findViewById(R.id.datePicker);
+        datePicker.init(currentTime.getYear(), currentTime.getMonthOfYear() - 1, currentTime.getDayOfMonth(), null);
+
         dialog.findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -229,10 +216,9 @@ public class SkyActivity extends AppCompatActivity implements SensorEventListene
                 int month = datePicker.getMonth();
                 int day = datePicker.getDayOfMonth();
                 Calendar calendar = new GregorianCalendar();
-                calendar.set(year, month, day, hour, minute);
-                calendar.setTimeZone(TimeZone.getTimeZone("UTC"));
-                double julianDate = DateUtil.toJulianDay(calendar);
-                setCurrentDate(julianDate);
+                calendar.set(year, month, day, hour, minute, 0);
+                timeManager.setCurrentDateTime(calendar);
+                timeManager.resume();
                 dialog.dismiss();
             }
         });
@@ -243,6 +229,7 @@ public class SkyActivity extends AppCompatActivity implements SensorEventListene
             }
         });
         dialog.show();
+        timeManager.stop();
     }
 
     public void setCurrentDate(double currentDate) {
@@ -262,6 +249,7 @@ public class SkyActivity extends AppCompatActivity implements SensorEventListene
             rate *= 2;
         else
             rate /= 2;
+        updateRateText();
     }
 
     public void decreaseRate(View v) {
@@ -274,6 +262,7 @@ public class SkyActivity extends AppCompatActivity implements SensorEventListene
             rate /= 2;
         else
             rate *= 2;
+        updateRateText();
     }
 
     public void playPause(View v) {
@@ -288,10 +277,28 @@ public class SkyActivity extends AppCompatActivity implements SensorEventListene
             this.rate = 0;
             playPauseButton.setBackgroundResource(R.drawable.ic_play_arrow_black_24dp);
         }
-
+        updateRateText();
     }
 
     public void resetDate(View v) {
-        //this.currentDate = DateUtil.getJulianDayNow();
+        timeManager.resetToCurrentTimeDate();
+    }
+
+    public void updateRateText() {
+        TextView rateView = (TextView) findViewById(R.id.rate);
+        rateView.setText("x" + String.valueOf(rate));
+    }
+
+    public void updateDateTimeText() {
+        DateTime currentDateTime = timeManager.getCurrentDateTimeUTC();
+        TextView currentdateTime = (TextView) findViewById(R.id.currentDate);
+        DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
+        String dateString = dateTimeFormatter.print(currentDateTime.withZone(DateTimeZone.getDefault()));
+        currentdateTime.setText(dateString);
+    }
+
+    public void resetRate(View view) {
+        this.rate = 1;
+        this.updateRateText();
     }
 }
