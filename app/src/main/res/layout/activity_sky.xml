@@ -24,7 +24,6 @@
             android:layout_weight="0.80"
             android:gravity="center"
             android:onClick="onChangeDateTime"
-            android:text=""
             android:textSize="24sp" />
 
         <TextView

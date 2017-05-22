@@ -74,19 +74,6 @@ public class MainActivity extends AppCompatActivity {
     final Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            Log.v(TAG, "Running loop");
-            String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
-            double julianDay = DateUtil.toJulianDay(Calendar.getInstance(TimeZone.getTimeZone("UTC")));
-            dateField.setText(currentDateTimeString);
-            jDateField.setText(String.format(new Locale("PL"), "%f", julianDay));
-            someHandler.postDelayed(runnable, 1000);
-            if (locationProviderService != null) {
-                Location location = locationProviderService.getLastLocation();
-                if (location != null) {
-                    latitude.setText(String.format("%f", location.getLatitude()));
-                    longitude.setText(String.format("%f", location.getLongitude()));
-                }
-            }
         }
     };
 
@@ -163,29 +150,36 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.settings:
-                Intent settingsIntent = new Intent(this, SettingsActivity.class);
-                startActivity(settingsIntent);
+                goToSettings(null);
                 return true;
             case R.id.about:
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("About");
-
-                final String aboutDialogText = "AstroDroid v1.0\nAD 2017";
-                TextView textView = new TextView(this);
-                textView.setText(aboutDialogText);
-                textView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-
-                builder.setView(textView);
-
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-                builder.show();
+                showAboutDialog(null);
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+    public void showAboutDialog(View v) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("About");
+
+        final String aboutDialogText = "\n\nAstroDroid v1.0\nAD 2017";
+        TextView textView = new TextView(this);
+        textView.setText(aboutDialogText);
+        textView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+
+        builder.setView(textView);
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+    }
+
+    public void goToSettings(View v) {
+        Intent settingsIntent = new Intent(this, SettingsActivity.class);
+        startActivity(settingsIntent);
     }
 }

@@ -21,5 +21,11 @@
             android:key="longitude"
             android:title="Longitude" />
     </PreferenceCategory>
-
+    <PreferenceCategory android:title="Sky View">
+        <EditTextPreference
+            android:defaultValue="60"
+            android:inputType="number"
+            android:key="max_fps"
+            android:title="Maximum FPS" />
+    </PreferenceCategory>
 </PreferenceScreen>

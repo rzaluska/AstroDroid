@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -15,6 +16,7 @@ import android.hardware.SensorManager;
 import android.location.Location;
 import android.os.Handler;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -89,6 +91,7 @@ public class SkyActivity extends AppCompatActivity implements SensorEventListene
     private boolean mIsBoundToService;
     private int previousRate = 1;
     private boolean stop;
+    private long frameTime;
 
     public SkyActivity() throws IOException, JSONException {
         handler = new Handler();
@@ -112,7 +115,7 @@ public class SkyActivity extends AppCompatActivity implements SensorEventListene
                 } catch (Exception e) {
                 } finally {
                     if (!stop)
-                        handler.postDelayed(runnable, 16);
+                        handler.postDelayed(runnable, frameTime);
                 }
             }
         };
@@ -171,6 +174,13 @@ public class SkyActivity extends AppCompatActivity implements SensorEventListene
         mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_UI);
         mSensorManager.registerListener(this, mMagnetometer, SensorManager.SENSOR_DELAY_UI);
         doBindService();
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        int maxFps = Integer.parseInt(sharedPref.getString("max_fps", "60"));
+        if (maxFps <= 0) {
+            this.frameTime = 1000 / 60;
+        } else {
+            this.frameTime = 1000 / maxFps;
+        }
     }
 
     @Override
@@ -218,8 +228,8 @@ public class SkyActivity extends AppCompatActivity implements SensorEventListene
                 Calendar calendar = new GregorianCalendar();
                 calendar.set(year, month, day, hour, minute, 0);
                 timeManager.setCurrentDateTime(calendar);
-                timeManager.resume();
                 dialog.dismiss();
+                timeManager.resume();
             }
         });
         dialog.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
