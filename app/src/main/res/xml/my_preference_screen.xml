@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="manual_location"
+        android:summary="Provide location manually instend of using GPS"
+        android:title="Manual Location Input" />
+    <PreferenceCategory
+        android:key="pref_key_storage_settings"
+        android:title="Manual Location">
+        <EditTextPreference
+            android:dependency="manual_location"
+            android:inputType="numberDecimal"
+            android:key="latitude"
+            android:summary="Latitude = %s"
+            android:title="Latitude" />
+        <EditTextPreference
+            android:dependency="manual_location"
+            android:inputType="numberDecimal"
+            android:key="longigute"
+            android:title="Longitude" />
+    </PreferenceCategory>
+
+</PreferenceScreen>
