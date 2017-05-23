@@ -37,6 +37,10 @@
             android:name=".MoonRiseSetInfoActivity"
             android:label="Moon Info"
             android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".LocalTimeInfoActivity"
+            android:label="Local Time Info"
+            android:parentActivityName=".MainActivity" />
 
         <service android:name=".LocationProviderService" />
     </application>

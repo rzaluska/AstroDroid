@@ -1,137 +1,35 @@
 package io.github.luxurypro.astrodroid;
 
+import android.Manifest;
 import android.app.AlertDialog;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.ServiceConnection;
-import android.icu.text.DateFormat;
-import android.location.Location;
-import android.location.LocationListener;
-import android.os.Handler;
-import android.os.IBinder;
-import android.provider.Settings;
-import android.support.v7.app.AppCompatActivity;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.util.Log;
+import android.preference.PreferenceManager;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
-
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
-import java.util.TimeZone;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     public static final String EXTRA_MESSAGE = "io.github.luxurypro.astrodroid.MESSAGE";
-    private Handler someHandler;
-    private TextView jDateField;
-    private TextView latitude;
-    private TextView longitude;
-
-    private LocationProviderService locationProviderService;
-
-    private ServiceConnection mConnection = new ServiceConnection() {
-        public void onServiceConnected(ComponentName className, IBinder service) {
-            locationProviderService = ((LocationProviderService.LocalBinder) service).getService();
-            if (!locationProviderService.isEnabled()) {
-                final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
-                        .setCancelable(false)
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            public void onClick(final DialogInterface dialog, final int id) {
-                                startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-                            }
-                        })
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                            public void onClick(final DialogInterface dialog, final int id) {
-                                dialog.cancel();
-                            }
-                        });
-                final AlertDialog alert = builder.create();
-                alert.show();
-            }
-        }
-
-        public void onServiceDisconnected(ComponentName className) {
-            locationProviderService = null;
-        }
-    };
-    private boolean mIsBoundToService;
-
-    public MainActivity() {
-        this.someHandler = new Handler();
-    }
-
-    private TextView dateField;
-
-    final Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-        }
-    };
+    public static final int MY_PRESMISSIO_REQUEST_LOCATION = 1;
+    public static boolean permission_granted = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        dateField = (TextView) this.findViewById(R.id.data);
-        jDateField = (TextView) this.findViewById(R.id.dataJ);
-        latitude = (TextView) this.findViewById(R.id.gpsLat);
-        longitude = (TextView) this.findViewById(R.id.gpsLon);
-        someHandler.post(runnable);
-    }
-
-    public void sendMessage(View view) {
-        Intent intent = new Intent(this, DisplayMessageActivity.class);
-        EditText editText = (EditText) findViewById(R.id.editText);
-        String message = editText.getText().toString();
-        intent.putExtra(EXTRA_MESSAGE, message);
-        startActivity(intent);
-
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        someHandler.removeCallbacks(this.runnable);
-        this.doUnbindService();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        someHandler.post(this.runnable);
-        this.doBindService();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        someHandler.removeCallbacks(this.runnable);
-        someHandler = null;
-    }
-
-    void doBindService() {
-        // Establish a connection with the service.  We use an explicit
-        // class name because we want a specific service implementation that
-        // we know will be running in our own process (and thus won't be
-        // supporting component replacement by other applications).
-        bindService(new Intent(MainActivity.this, LocationProviderService.class), mConnection, Context.BIND_AUTO_CREATE);
-        mIsBoundToService = true;
-    }
-
-
-    void doUnbindService() {
-        if (mIsBoundToService) {
-            unbindService(mConnection);
-            mIsBoundToService = false;
+        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED) {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MY_PRESMISSIO_REQUEST_LOCATION);
+        } else {
+            permission_granted = true;
         }
     }
 
@@ -158,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 
     public void showAboutDialog(View v) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -192,5 +91,26 @@ public class MainActivity extends AppCompatActivity {
     public void moonInfo(View v) {
         Intent moonInfo = new Intent(this, MoonRiseSetInfoActivity.class);
         startActivity(moonInfo);
+    }
+
+    public void timeInfoActivity(View v) {
+        Intent timeInfo = new Intent(this, LocalTimeInfoActivity.class);
+        startActivity(timeInfo);
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PRESMISSIO_REQUEST_LOCATION: {
+                permission_granted = grantResults.length > 0 && (grantResults[0] == PackageManager.PERMISSION_GRANTED);
+                if (!permission_granted) {
+                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+                    prefs.edit().putBoolean("manual_location", true).apply();
+                    Toast.makeText(MainActivity.this, "Permission for location denied :(", Toast.LENGTH_SHORT).show();
+                }
+                return;
+            }
+        }
     }
 }

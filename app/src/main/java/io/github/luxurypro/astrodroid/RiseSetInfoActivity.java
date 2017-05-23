@@ -12,6 +12,7 @@ import android.os.IBinder;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.TextView;
 
 public abstract class RiseSetInfoActivity extends AppCompatActivity {
@@ -49,7 +50,10 @@ public abstract class RiseSetInfoActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rise_set_info);
+        doSetBackground();
     }
+
+    protected abstract void doSetBackground();
 
     @Override
     protected void onResume() {

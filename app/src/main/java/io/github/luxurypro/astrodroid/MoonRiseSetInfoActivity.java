@@ -2,6 +2,7 @@ package io.github.luxurypro.astrodroid;
 
 
 import android.location.Location;
+import android.view.View;
 import android.widget.TextView;
 
 import org.joda.time.DateTime;
@@ -16,6 +17,12 @@ import java.util.TimeZone;
 import io.github.luxurypro.astrodroid.astronomy.Moon;
 
 public class MoonRiseSetInfoActivity extends RiseSetInfoActivity {
+    @Override
+    protected void doSetBackground() {
+        View view = findViewById(android.R.id.content);
+        view.setBackground( getResources().getDrawable(R.drawable.moon));
+    }
+
     @Override
     public void doUpdateTitle(TextView title) {
         title.setText("Moon");

@@ -3,6 +3,9 @@ package io.github.luxurypro.astrodroid;
 import junit.framework.Assert;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.Duration;
+import org.joda.time.Period;
 import org.junit.Test;
 
 import java.util.Calendar;
@@ -56,6 +59,18 @@ public class SunTest {
         System.out.println(new DateTime(DateUtil.julianDayToCalendar(DateUtil.fromJ2000(rise))));
         double set = moon.getSet(Math.toRadians(21), Math.toRadians(52));
         System.out.println(new DateTime(DateUtil.julianDayToCalendar(DateUtil.fromJ2000(set))));
+    }
+
+    @Test
+    public void solarTimeTest() throws Exception {
+        DateTime dateTime = DateUtil.localSolarTime(21);
+    }
+
+    @Test
+    public void siderealTimeTest() throws Exception {
+        double dateTime = DateUtil.getEarthLocalSiderialTime(DateUtil.getJ2000Now(), Math.toRadians(21)) / (2 * Math.PI) - 0.5;
+        double j2000 = Math.floor(DateUtil.getJ2000Now());
+        j2000 += dateTime;
     }
 
     @Test

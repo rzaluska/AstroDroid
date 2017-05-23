@@ -1,7 +1,9 @@
 package io.github.luxurypro.astrodroid;
 
 
+import android.graphics.Color;
 import android.location.Location;
+import android.view.View;
 import android.widget.TextView;
 
 import org.joda.time.DateTime;
@@ -17,6 +19,12 @@ import io.github.luxurypro.astrodroid.astronomy.EquatorialCoordinates;
 import io.github.luxurypro.astrodroid.astronomy.Sun;
 
 public class SunRiseSetInfoActivity extends RiseSetInfoActivity {
+    @Override
+    protected void doSetBackground() {
+        View view = findViewById(android.R.id.content);
+        view.setBackground( getResources().getDrawable(R.drawable.sun));
+    }
+
     @Override
     public void doUpdateTitle(TextView title) {
         title.setText("Sun");

@@ -32,7 +32,7 @@ public class LocationProviderService extends Service implements LocationListener
     public boolean isEnabled() {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         boolean manualLocation = sharedPref.getBoolean("manual_location", false);
-        return isGPSEnabled || manualLocation;
+        return isGPSEnabled || manualLocation || !MainActivity.permission_granted;
     }
 
     @Override
@@ -45,7 +45,7 @@ public class LocationProviderService extends Service implements LocationListener
     public Location getLastLocation() {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         boolean manualLocation = sharedPref.getBoolean("manual_location", false);
-        if (manualLocation) {
+        if (manualLocation || !MainActivity.permission_granted) {
             float latitude = Float.parseFloat(sharedPref.getString("latitude", "0"));
             float longitude = Float.parseFloat(sharedPref.getString("longitude", "0"));
             Location location = new Location(LocationManager.PASSIVE_PROVIDER);
@@ -89,7 +89,7 @@ public class LocationProviderService extends Service implements LocationListener
     public void connectToGPS() {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         boolean manualLocation = sharedPref.getBoolean("manual_location", false);
-        if (manualLocation)
+        if (manualLocation || !MainActivity.permission_granted)
             return;
         this.isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         this.locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1, this);

@@ -1,10 +1,20 @@
 package io.github.luxurypro.astrodroid;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.Duration;
+import org.joda.time.Instant;
+import org.joda.time.Interval;
+import org.joda.time.Period;
+
 import java.lang.reflect.AnnotatedElement;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
+
+import static java.lang.Math.cos;
+import static java.lang.Math.sin;
 
 public class DateUtil {
     public static double toJulianDay(Calendar calendar) {
@@ -78,5 +88,23 @@ public class DateUtil {
 
     public static double getEarthLocalSiderialTime(double J2000, double longitude) {
         return MathUtil.normalzeAngle(Math.toRadians(280.147) + Math.toRadians(360.9856235) * J2000 + longitude);
+    }
+
+    /**
+     * Calculate local solar time for now in given longitude
+     * @param longitude in degrees
+     * @return DateTime for local solar time
+     */
+    public static DateTime localSolarTime(double longitude) {
+        DateTime localTime = new DateTime().withZone(DateTimeZone.getDefault());
+        DateTime utc = new DateTime().withZone(DateTimeZone.UTC);
+        Period delta = new Period(utc.toLocalDateTime(), localTime.toLocalDateTime());
+        Duration lstm = delta.toStandardDuration();
+        int dayOfYear = localTime.getDayOfYear();
+        double B = (360.0 / 365.0) * (dayOfYear - 81);
+        double EoT = 9.87 * sin(2 * B) - 7.53 * cos(B) - 1.5 * sin(B);
+        Duration timeDiff = new Duration((long)(1000 * 60 * 4 * longitude));
+        Duration timeCorrection = timeDiff.minus(lstm.getMillis()).withDurationAdded((long) (EoT * 1000 * 60), 1);
+        return new DateTime().withDurationAdded(timeCorrection.getMillis(), 1);
     }
 }

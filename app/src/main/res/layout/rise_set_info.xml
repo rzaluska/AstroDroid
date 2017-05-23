@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#4D000000"
     tools:context=".RiseSetInfoActivity">
 
     <TextView
@@ -12,6 +13,7 @@
         android:layout_height="wrap_content"
         android:text=""
         android:textAlignment="center"
+        android:textColor="@android:color/white"
         android:textSize="30dp" />
 
     <LinearLayout
@@ -32,6 +34,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:text="Rise:"
+                android:textColor="@android:color/white"
                 android:textAlignment="center"
                 android:textSize="30dp" />
 
@@ -41,6 +44,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:text=""
+                android:textColor="@android:color/white"
                 android:textAlignment="center"
                 android:textSize="30dp" />
         </LinearLayout>
@@ -56,6 +60,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:text="Transit:"
+                android:textColor="@android:color/white"
                 android:textAlignment="center"
                 android:textSize="30dp" />
 
@@ -65,6 +70,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:text=""
+                android:textColor="@android:color/white"
                 android:textAlignment="center"
                 android:textSize="30dp" />
         </LinearLayout>
@@ -80,6 +86,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:text="Set:"
+                android:textColor="@android:color/white"
                 android:textAlignment="center"
                 android:textSize="30dp" />
 
@@ -89,6 +96,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:text=""
+                android:textColor="@android:color/white"
                 android:textAlignment="center"
                 android:textSize="30dp" />
         </LinearLayout>
