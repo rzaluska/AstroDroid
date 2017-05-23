@@ -1,5 +1,6 @@
 package io.github.luxurypro.astrodroid;
 
+import java.lang.reflect.AnnotatedElement;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -57,6 +58,10 @@ public class DateUtil {
 
     public static double toJ2000(double julianDay) {
         return julianDay - 2451545.0;
+    }
+
+    public static double fromJ2000(double julianDay) {
+        return julianDay + 2451545.0;
     }
 
     public static double getJ2000Now() {

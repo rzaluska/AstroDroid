@@ -38,6 +38,7 @@ public class Star implements AstroObject {
             return;
         paint.setColor(Color.WHITE);
         double r = radius * Math.tan((Math.PI / 2 - this.getAltitude()) / 2);
+        //double r = radius * ((Math.PI / 2) - this.getAltitude()) / (Math.PI / 2);
         double alpha = this.getAzimunt() + Math.PI / 2;
         int sx = (int) (r * Math.cos(alpha));
         int sy = (int) (r * Math.sin(alpha));

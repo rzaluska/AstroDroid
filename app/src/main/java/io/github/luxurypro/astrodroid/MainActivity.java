@@ -158,6 +158,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
     public void showAboutDialog(View v) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("About");
@@ -181,5 +182,15 @@ public class MainActivity extends AppCompatActivity {
     public void goToSettings(View v) {
         Intent settingsIntent = new Intent(this, SettingsActivity.class);
         startActivity(settingsIntent);
+    }
+
+    public void sunInfo(View v) {
+        Intent sunInfo = new Intent(this, SunRiseSetInfoActivity.class);
+        startActivity(sunInfo);
+    }
+
+    public void moonInfo(View v) {
+        Intent moonInfo = new Intent(this, MoonRiseSetInfoActivity.class);
+        startActivity(moonInfo);
     }
 }

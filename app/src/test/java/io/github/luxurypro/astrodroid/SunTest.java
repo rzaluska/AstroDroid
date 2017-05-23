@@ -2,6 +2,7 @@ package io.github.luxurypro.astrodroid;
 
 import junit.framework.Assert;
 
+import org.joda.time.DateTime;
 import org.junit.Test;
 
 import java.util.Calendar;
@@ -9,6 +10,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
+import io.github.luxurypro.astrodroid.astronomy.EquatorialCoordinates;
 import io.github.luxurypro.astrodroid.astronomy.Moon;
 import io.github.luxurypro.astrodroid.astronomy.Sun;
 
@@ -24,6 +26,36 @@ public class SunTest {
         Calendar date = new GregorianCalendar(TimeZone.getTimeZone("UTC"));
         double julianDay = DateUtil.toJulianDay(date);
         Sun sun = new Sun(julianDay, Math.toRadians(52.22970), Math.toRadians(21.01220));
+    }
+
+    @Test
+    public void trasitTest() throws Exception {
+        Calendar date = new GregorianCalendar(TimeZone.getTimeZone("UTC"));
+        double julianDay = DateUtil.toJulianDay(date);
+        Sun sun = new Sun(julianDay, Math.toRadians(52.22970), Math.toRadians(21.01220));
+        EquatorialCoordinates eq = sun.getEquatorialCoordinates();
+        double ra = eq.getRightAscension();
+        double transit = sun.getTransit(Math.toRadians(21));
+        System.out.println(new DateTime(DateUtil.julianDayToCalendar(DateUtil.fromJ2000(transit))));
+        double rise = sun.getRise(Math.toRadians(21), Math.toRadians(52));
+        System.out.println(new DateTime(DateUtil.julianDayToCalendar(DateUtil.fromJ2000(rise))));
+        double set = sun.getSet(Math.toRadians(21), Math.toRadians(52));
+        System.out.println(new DateTime(DateUtil.julianDayToCalendar(DateUtil.fromJ2000(set))));
+    }
+
+    @Test
+    public void trasitMoonTest() throws Exception {
+        Calendar date = new GregorianCalendar(TimeZone.getTimeZone("UTC"));
+        double julianDay = DateUtil.toJulianDay(date);
+        Moon moon = new Moon(julianDay, Math.toRadians(52.22970), Math.toRadians(21.01220));
+        EquatorialCoordinates eq = moon.getEquatorialCoordinates();
+        double ra = eq.getRightAscension();
+        double transit = moon.getTransit(Math.toRadians(21));
+        System.out.println(new DateTime(DateUtil.julianDayToCalendar(DateUtil.fromJ2000(transit))));
+        double rise = moon.getRise(Math.toRadians(21), Math.toRadians(52));
+        System.out.println(new DateTime(DateUtil.julianDayToCalendar(DateUtil.fromJ2000(rise))));
+        double set = moon.getSet(Math.toRadians(21), Math.toRadians(52));
+        System.out.println(new DateTime(DateUtil.julianDayToCalendar(DateUtil.fromJ2000(set))));
     }
 
     @Test

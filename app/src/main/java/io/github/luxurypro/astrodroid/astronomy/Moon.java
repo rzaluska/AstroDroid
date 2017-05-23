@@ -1,9 +1,11 @@
 package io.github.luxurypro.astrodroid.astronomy;
 
+import org.joda.time.DateTime;
+
 import io.github.luxurypro.astrodroid.DateUtil;
 import io.github.luxurypro.astrodroid.MathUtil;
 
-public class Moon {
+public class Moon extends CellestialBody {
     private HorizontalCoordinates horizontalCoordinates;
 
     public Moon(double JulianDay, double latitude, double longitude) {
@@ -11,7 +13,7 @@ public class Moon {
 
         ElipticalCoordinates elipticalCoordinates = Moon.getElipticalCoordinates(j2000);
 
-        EquatorialCoordinates equatorialCoordinates = EquatorialCoordinates.fromeElipticalCoordinates(elipticalCoordinates, j2000);
+        this.equatorialCoordinates = EquatorialCoordinates.fromeElipticalCoordinates(elipticalCoordinates, j2000);
 
         this.horizontalCoordinates = HorizontalCoordinates.fromEquatorialCoordinates(equatorialCoordinates, j2000, latitude, longitude);
     }
@@ -46,5 +48,4 @@ public class Moon {
     public double getAltitude() {
         return this.horizontalCoordinates.getAltitude();
     }
-
 }

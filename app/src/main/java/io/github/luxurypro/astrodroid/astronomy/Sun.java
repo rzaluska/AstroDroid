@@ -1,9 +1,12 @@
 package io.github.luxurypro.astrodroid.astronomy;
 
+import org.joda.time.DateTime;
+
+import io.github.luxurypro.astrodroid.DateTimePickerDialog;
 import io.github.luxurypro.astrodroid.DateUtil;
 import io.github.luxurypro.astrodroid.MathUtil;
 
-public class Sun {
+public class Sun extends CellestialBody {
     private final HorizontalCoordinates horizontalCoordinates;
 
     public Sun(double JulianDay, double latitude, double longitude) {
@@ -17,8 +20,8 @@ public class Sun {
 
         ElipticalCoordinates elipticalCoordinates = new ElipticalCoordinates(0, sunElipticalLongitude);
 
-        EquatorialCoordinates equatorialCoordinates = EquatorialCoordinates.fromeElipticalCoordinates(elipticalCoordinates, j2000);
-        horizontalCoordinates = HorizontalCoordinates.fromEquatorialCoordinates(equatorialCoordinates, j2000, latitude, longitude);
+        this.equatorialCoordinates = EquatorialCoordinates.fromeElipticalCoordinates(elipticalCoordinates, j2000);
+        horizontalCoordinates = HorizontalCoordinates.fromEquatorialCoordinates(getEquatorialCoordinates(), j2000, latitude, longitude);
     }
 
     public double getAzimunt() {

@@ -6,7 +6,7 @@ public class AngleUtil {
     }
 
     public static double fromDegMinSec(int deg, int minute, double sec) {
-        return 2 * Math.PI * (deg / 360.0 + minute / (3600.0 * 60.0) + sec / (360.0 * 60.0 * 60.0));
+        return Math.signum(deg) * 2 * Math.PI * (Math.abs(deg) / 360.0 + minute / (3600.0 * 60.0) + sec / (360.0 * 60.0 * 60.0));
     }
 }
 

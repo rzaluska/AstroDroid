@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background"
     android:orientation="vertical"
     tools:context="io.github.luxurypro.astrodroid.MainActivity">
 
@@ -40,14 +41,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0.50"
-                android:onClick="runSkyView"
+                android:onClick="sunInfo"
                 android:text="Sunrise / Sunset" />
 
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0.50"
-                android:onClick="runSkyView"
+                android:onClick="moonInfo"
                 android:text="MoonRise / MoonSet" />
 
         </LinearLayout>
