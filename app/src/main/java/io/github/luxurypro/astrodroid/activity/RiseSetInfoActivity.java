@@ -1,4 +1,4 @@
-package io.github.luxurypro.astrodroid;
+package io.github.luxurypro.astrodroid.activity;
 
 
 import android.app.AlertDialog;
@@ -12,8 +12,10 @@ import android.os.IBinder;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.widget.TextView;
+
+import io.github.luxurypro.astrodroid.service.LocationProviderService;
+import io.github.luxurypro.astrodroid.R;
 
 public abstract class RiseSetInfoActivity extends AppCompatActivity {
     protected LocationProviderService locationProviderService;

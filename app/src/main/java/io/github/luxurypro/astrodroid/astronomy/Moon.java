@@ -1,9 +1,7 @@
 package io.github.luxurypro.astrodroid.astronomy;
 
-import org.joda.time.DateTime;
-
-import io.github.luxurypro.astrodroid.DateUtil;
-import io.github.luxurypro.astrodroid.MathUtil;
+import io.github.luxurypro.astrodroid.util.DateUtil;
+import io.github.luxurypro.astrodroid.util.MathUtil;
 
 public class Moon extends CellestialBody {
     private HorizontalCoordinates horizontalCoordinates;
@@ -19,9 +17,9 @@ public class Moon extends CellestialBody {
     }
 
     private static ElipticalCoordinates getElipticalCoordinates(double j2000) {
-        double L = MathUtil.normalzeAngle(Math.toRadians(218.316) + Math.toRadians(13.176396) * j2000);
+        double L = MathUtil.normalizeAngle(Math.toRadians(218.316) + Math.toRadians(13.176396) * j2000);
         double M = getMeanAnomaly(j2000);
-        double F = MathUtil.normalzeAngle(Math.toRadians(93.272) + Math.toRadians(13.229350) * j2000);
+        double F = MathUtil.normalizeAngle(Math.toRadians(93.272) + Math.toRadians(13.229350) * j2000);
 
         double elipticalLongitude = L + Math.toRadians(6.289) * Math.sin(M); //lambda
         double elipticalLatitude = Math.toRadians(5.128) * Math.sin(F); // beta
@@ -29,7 +27,7 @@ public class Moon extends CellestialBody {
     }
 
     private static double getMeanAnomaly(double j2000) {
-        return MathUtil.normalzeAngle(Math.toRadians(134.963) + Math.toRadians(13.064993) * j2000);
+        return MathUtil.normalizeAngle(Math.toRadians(134.963) + Math.toRadians(13.064993) * j2000);
     }
 
     /**

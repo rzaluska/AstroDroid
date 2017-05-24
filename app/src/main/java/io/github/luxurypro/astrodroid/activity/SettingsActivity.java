@@ -1,4 +1,4 @@
-package io.github.luxurypro.astrodroid;
+package io.github.luxurypro.astrodroid.activity;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -8,6 +8,8 @@ import android.preference.PreferenceFragment;
 import android.support.v7.app.AppCompatActivity;
 
 import java.util.Map;
+
+import io.github.luxurypro.astrodroid.R;
 
 public class SettingsActivity extends AppCompatActivity {
     @Override

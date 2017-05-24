@@ -1,4 +1,4 @@
-package io.github.luxurypro.astrodroid;
+package io.github.luxurypro.astrodroid.activity;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -15,6 +15,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import io.github.luxurypro.astrodroid.R;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";

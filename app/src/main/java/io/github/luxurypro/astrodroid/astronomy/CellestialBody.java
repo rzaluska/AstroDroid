@@ -1,7 +1,7 @@
 package io.github.luxurypro.astrodroid.astronomy;
 
 
-import io.github.luxurypro.astrodroid.DateUtil;
+import io.github.luxurypro.astrodroid.util.DateUtil;
 
 public class CellestialBody {
     protected EquatorialCoordinates equatorialCoordinates;

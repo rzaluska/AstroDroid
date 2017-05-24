@@ -1,4 +1,4 @@
-package io.github.luxurypro.astrodroid;
+package io.github.luxurypro.astrodroid.activity;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -38,6 +38,11 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import io.github.luxurypro.astrodroid.service.LocationProviderService;
+import io.github.luxurypro.astrodroid.util.LowPassFilter;
+import io.github.luxurypro.astrodroid.R;
+import io.github.luxurypro.astrodroid.view.SkyView;
+import io.github.luxurypro.astrodroid.util.TimeManager;
 import io.github.luxurypro.astrodroid.astronomy.Moon;
 import io.github.luxurypro.astrodroid.astronomy.SkyMap;
 import io.github.luxurypro.astrodroid.astronomy.Sun;

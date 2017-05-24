@@ -1,4 +1,4 @@
-package io.github.luxurypro.astrodroid;
+package io.github.luxurypro.astrodroid.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -15,6 +15,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
+
+import io.github.luxurypro.astrodroid.R;
 
 
 public class DateTimePickerDialog extends Dialog implements View.OnClickListener {

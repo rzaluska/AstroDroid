@@ -10,12 +10,10 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InterruptedIOException;
 import java.util.LinkedList;
 import java.util.List;
 
-import io.github.luxurypro.astrodroid.AngleUtil;
-import io.github.luxurypro.astrodroid.R;
+import io.github.luxurypro.astrodroid.util.MathUtil;
 
 public class SkyMap {
     private List<AstroObject> astroObjects;
@@ -51,13 +49,13 @@ public class SkyMap {
             int rightAscensionHour = Integer.parseInt(elems[0]);
             int rightAscensionMinute = Integer.parseInt(elems[1]);
             double rightAscensionSecond = Double.parseDouble(elems[2]);
-            double rightAscensionAngle = AngleUtil.fromHourMinSec(rightAscensionHour, rightAscensionMinute, rightAscensionSecond);
+            double rightAscensionAngle = MathUtil.radiansFromHourMinSec(rightAscensionHour, rightAscensionMinute, rightAscensionSecond);
             String declination = star.getString("dec");
             String[] decElems = declination.split(",");
             int declinationDeg = Integer.parseInt(decElems[0]);
             int declinationMinute = Integer.parseInt(decElems[1]);
             double declinationSecond = Double.parseDouble(decElems[2]);
-            double declinationAngle = AngleUtil.fromDegMinSec(declinationDeg, declinationMinute, declinationSecond);
+            double declinationAngle = MathUtil.radiansFromDegMinSec(declinationDeg, declinationMinute, declinationSecond);
             Star starObject = new Star(rightAscensionAngle, declinationAngle);
             skyMap.astroObjects.add(starObject);
         }

@@ -1,7 +1,7 @@
 package io.github.luxurypro.astrodroid.astronomy;
 
-import io.github.luxurypro.astrodroid.DateUtil;
-import io.github.luxurypro.astrodroid.MathUtil;
+import io.github.luxurypro.astrodroid.util.DateUtil;
+import io.github.luxurypro.astrodroid.util.MathUtil;
 
 import static java.lang.Math.*;
 
@@ -34,7 +34,7 @@ public class HorizontalCoordinates {
         double siderialTime = DateUtil.getEarthLocalSiderialTime(j2000, longitude);
 
         double hourAngle = siderialTime - equatorialCoordinates.getRightAscension();
-        double azimunt = MathUtil.normalzeAngle(atan2(sin(hourAngle), (cos(hourAngle) * sin(latitude)) - (tan(equatorialCoordinates.getDeclination()) * cos(latitude))));
+        double azimunt = MathUtil.normalizeAngle(atan2(sin(hourAngle), (cos(hourAngle) * sin(latitude)) - (tan(equatorialCoordinates.getDeclination()) * cos(latitude))));
         double altitude = asin(sin(latitude) * sin(equatorialCoordinates.getDeclination()) + cos(latitude) * cos(equatorialCoordinates.getDeclination()) * cos(hourAngle));
         return new HorizontalCoordinates(azimunt, altitude);
     }

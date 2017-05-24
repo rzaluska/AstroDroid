@@ -3,19 +3,16 @@ package io.github.luxurypro.astrodroid;
 import junit.framework.Assert;
 
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.Duration;
-import org.joda.time.Period;
 import org.junit.Test;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 import io.github.luxurypro.astrodroid.astronomy.EquatorialCoordinates;
 import io.github.luxurypro.astrodroid.astronomy.Moon;
 import io.github.luxurypro.astrodroid.astronomy.Sun;
+import io.github.luxurypro.astrodroid.util.DateUtil;
 
 public class SunTest {
     @Test

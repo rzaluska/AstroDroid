@@ -1,105 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#4D000000"
-    tools:context=".RiseSetInfoActivity">
+    android:background="#000000"
+    tools:context=".activity.RiseSetInfoActivity">
 
-    <TextView
-        android:id="@+id/name"
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textAlignment="center"
-        android:textColor="@android:color/white"
-        android:textSize="30dp" />
+        android:id="@+id/planetImage"
+        android:layout_height="match_parent"
+        android:alpha="0.5"
+        android:scaleType="centerCrop"
+        android:src="@drawable/sun" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textSize="30dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="0.25"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/textView8"
-                android:layout_width="150dp"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="Rise:"
-                android:textColor="@android:color/white"
-                android:textAlignment="center"
-                android:textSize="30dp" />
 
-            <TextView
-                android:id="@+id/rise"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center"
-                android:text=""
-                android:textColor="@android:color/white"
-                android:textAlignment="center"
-                android:textSize="30dp" />
-        </LinearLayout>
+                android:layout_weight="0.25"
+                android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="0.25"
-            android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/textView8"
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="Rise:"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="30dp" />
 
-            <TextView
-                android:layout_width="150dp"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="Transit:"
-                android:textColor="@android:color/white"
-                android:textAlignment="center"
-                android:textSize="30dp" />
+                <TextView
+                    android:id="@+id/rise"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="30dp" />
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/transit"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center"
-                android:text=""
-                android:textColor="@android:color/white"
-                android:textAlignment="center"
-                android:textSize="30dp" />
-        </LinearLayout>
+                android:layout_weight="0.25"
+                android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="0.25"
-            android:orientation="horizontal">
+                <TextView
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="Transit:"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="30dp" />
 
-            <TextView
-                android:layout_width="150dp"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="Set:"
-                android:textColor="@android:color/white"
-                android:textAlignment="center"
-                android:textSize="30dp" />
+                <TextView
+                    android:id="@+id/transit"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="30dp" />
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/set"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center"
-                android:text=""
-                android:textColor="@android:color/white"
-                android:textAlignment="center"
-                android:textSize="30dp" />
+                android:layout_weight="0.25"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="Set:"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="30dp" />
+
+                <TextView
+                    android:id="@+id/set"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="30dp" />
+            </LinearLayout>
         </LinearLayout>
+
     </LinearLayout>
 
-</LinearLayout>
+
+</RelativeLayout>

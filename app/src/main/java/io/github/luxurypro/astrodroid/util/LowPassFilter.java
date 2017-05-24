@@ -1,4 +1,4 @@
-package io.github.luxurypro.astrodroid;
+package io.github.luxurypro.astrodroid.util;
 
 public class LowPassFilter {
     private double smoothingFactor = 0.99;
@@ -15,6 +15,9 @@ public class LowPassFilter {
         lastCos = smoothingFactor * lastCos + (1 - smoothingFactor) * Math.cos(value);
     }
 
+    /**
+     * @return value smoothed over time
+     */
     public double getValue() {
         return Math.atan2(lastSin, lastCos);
     }

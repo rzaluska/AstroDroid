@@ -1,4 +1,4 @@
-package io.github.luxurypro.astrodroid;
+package io.github.luxurypro.astrodroid.util;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -7,9 +7,10 @@ import org.joda.time.Instant;
 import org.joda.time.Interval;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
+
+import io.github.luxurypro.astrodroid.util.DateUtil;
 
 public class TimeManager {
     private Instant previousTickTime;

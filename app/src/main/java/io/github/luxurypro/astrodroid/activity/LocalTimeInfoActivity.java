@@ -1,4 +1,4 @@
-package io.github.luxurypro.astrodroid;
+package io.github.luxurypro.astrodroid.activity;
 
 
 import android.app.AlertDialog;
@@ -8,7 +8,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -25,7 +24,10 @@ import org.joda.time.format.DateTimeFormatter;
 
 import java.util.Locale;
 
-import static io.github.luxurypro.astrodroid.R.id.rate;
+import io.github.luxurypro.astrodroid.util.DateUtil;
+import io.github.luxurypro.astrodroid.service.LocationProviderService;
+import io.github.luxurypro.astrodroid.util.MathUtil;
+import io.github.luxurypro.astrodroid.R;
 
 public class LocalTimeInfoActivity extends AppCompatActivity {
     private final Handler handler;
@@ -78,7 +80,7 @@ public class LocalTimeInfoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.local_tile_info_activity);
+        setContentView(R.layout.local_time_info_activity);
     }
 
     @Override
@@ -138,7 +140,7 @@ public class LocalTimeInfoActivity extends AppCompatActivity {
         DateTime d = new DateTime(DateUtil.julianDayToCalendar(DateUtil.fromJ2000(j)));
         siderial.setText(dateTimeFormatter.print(d));
 
-        double gmts = MathUtil.normalzeAngle(Math.toRadians(280.147) + Math.toRadians(360.9856235) * DateUtil.getJ2000Now()) / (2 * Math.PI) - 0.5;
+        double gmts = MathUtil.normalizeAngle(Math.toRadians(280.147) + Math.toRadians(360.9856235) * DateUtil.getJ2000Now()) / (2 * Math.PI) - 0.5;
         ;
         j = Math.floor(DateUtil.getJ2000Now());
         j += gmts;

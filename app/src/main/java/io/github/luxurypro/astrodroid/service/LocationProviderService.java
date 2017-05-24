@@ -1,12 +1,10 @@
-package io.github.luxurypro.astrodroid;
+package io.github.luxurypro.astrodroid.service;
 
 
-import android.Manifest;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -14,10 +12,10 @@ import android.location.LocationProvider;
 import android.os.Binder;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
+
+import io.github.luxurypro.astrodroid.activity.MainActivity;
 
 public class LocationProviderService extends Service implements LocationListener {
     private LocationManager locationManager;
@@ -72,7 +70,7 @@ public class LocationProviderService extends Service implements LocationListener
     }
 
     public class LocalBinder extends Binder {
-        LocationProviderService getService() {
+        public LocationProviderService getService() {
             return LocationProviderService.this;
         }
     }

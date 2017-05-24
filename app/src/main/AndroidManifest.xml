@@ -11,7 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,30 +19,30 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".DisplayMessageActivity"
-            android:parentActivityName=".MainActivity" />
+            android:name=".activity.DisplayMessageActivity"
+            android:parentActivityName=".activity.MainActivity" />
         <activity
-            android:name=".SkyActivity"
+            android:name=".activity.SkyActivity"
             android:label="Sky View"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".activity.MainActivity" />
         <activity
-            android:name=".SettingsActivity"
+            android:name=".activity.SettingsActivity"
             android:label="Settings"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".activity.MainActivity" />
         <activity
-            android:name=".SunRiseSetInfoActivity"
+            android:name=".activity.SunRiseSetInfoActivity"
             android:label="Sun Info"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".activity.MainActivity" />
         <activity
-            android:name=".MoonRiseSetInfoActivity"
+            android:name=".activity.MoonRiseSetInfoActivity"
             android:label="Moon Info"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".activity.MainActivity" />
         <activity
-            android:name=".LocalTimeInfoActivity"
+            android:name=".activity.LocalTimeInfoActivity"
             android:label="Local Time Info"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".activity.MainActivity" />
 
-        <service android:name=".LocationProviderService" />
+        <service android:name=".service.LocationProviderService" />
     </application>
 
 </manifest>

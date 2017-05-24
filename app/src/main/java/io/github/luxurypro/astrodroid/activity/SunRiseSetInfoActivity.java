@@ -1,9 +1,9 @@
-package io.github.luxurypro.astrodroid;
+package io.github.luxurypro.astrodroid.activity;
 
 
-import android.graphics.Color;
 import android.location.Location;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.joda.time.DateTime;
@@ -15,14 +15,15 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
-import io.github.luxurypro.astrodroid.astronomy.EquatorialCoordinates;
+import io.github.luxurypro.astrodroid.util.DateUtil;
+import io.github.luxurypro.astrodroid.R;
 import io.github.luxurypro.astrodroid.astronomy.Sun;
 
 public class SunRiseSetInfoActivity extends RiseSetInfoActivity {
     @Override
     protected void doSetBackground() {
-        View view = findViewById(android.R.id.content);
-        view.setBackground( getResources().getDrawable(R.drawable.sun));
+        ImageView view = (ImageView) findViewById(R.id.planetImage);
+        view.setImageResource(R.drawable.sun);
     }
 
     @Override

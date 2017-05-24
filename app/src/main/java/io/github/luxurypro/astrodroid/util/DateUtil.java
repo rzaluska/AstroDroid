@@ -1,15 +1,11 @@
-package io.github.luxurypro.astrodroid;
+package io.github.luxurypro.astrodroid.util;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Duration;
-import org.joda.time.Instant;
-import org.joda.time.Interval;
 import org.joda.time.Period;
 
-import java.lang.reflect.AnnotatedElement;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
@@ -87,7 +83,7 @@ public class DateUtil {
     }
 
     public static double getEarthLocalSiderialTime(double J2000, double longitude) {
-        return MathUtil.normalzeAngle(Math.toRadians(280.147) + Math.toRadians(360.9856235) * J2000 + longitude);
+        return MathUtil.normalizeAngle(Math.toRadians(280.147) + Math.toRadians(360.9856235) * J2000 + longitude);
     }
 
     /**

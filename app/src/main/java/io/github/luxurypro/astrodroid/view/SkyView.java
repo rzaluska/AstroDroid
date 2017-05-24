@@ -1,4 +1,4 @@
-package io.github.luxurypro.astrodroid;
+package io.github.luxurypro.astrodroid.view;
 
 import android.content.Context;
 import android.graphics.Canvas;

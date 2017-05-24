@@ -4,9 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="io.github.luxurypro.astrodroid.SkyActivity">
+    tools:context="io.github.luxurypro.astrodroid.activity.SkyActivity">
 
-    <io.github.luxurypro.astrodroid.SkyView
+    <io.github.luxurypro.astrodroid.view.SkyView
         android:id="@id/SkyView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
