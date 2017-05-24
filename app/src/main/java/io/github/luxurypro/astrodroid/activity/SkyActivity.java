@@ -38,6 +38,7 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import io.github.luxurypro.astrodroid.astronomy.Jupiter;
 import io.github.luxurypro.astrodroid.service.LocationProviderService;
 import io.github.luxurypro.astrodroid.util.LowPassFilter;
 import io.github.luxurypro.astrodroid.R;
@@ -133,6 +134,8 @@ public class SkyActivity extends AppCompatActivity implements SensorEventListene
         AssetManager assetManager = this.getAssets();
         try {
             this.skyMap = SkyMap.readFromStream(assetManager.open("AstroCatalogue/starts.json"));
+            this.skyMap.addObject(new Jupiter());
+
         } catch (IOException | JSONException e) {
             e.printStackTrace();
         }

@@ -10,6 +10,7 @@ import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 import io.github.luxurypro.astrodroid.astronomy.EquatorialCoordinates;
+import io.github.luxurypro.astrodroid.astronomy.Jupiter;
 import io.github.luxurypro.astrodroid.astronomy.Moon;
 import io.github.luxurypro.astrodroid.astronomy.Sun;
 import io.github.luxurypro.astrodroid.util.DateUtil;
@@ -61,6 +62,12 @@ public class SunTest {
     @Test
     public void solarTimeTest() throws Exception {
         DateTime dateTime = DateUtil.localSolarTime(21);
+    }
+
+    @Test
+    public void jupiter() throws Exception {
+        Jupiter jupiter = new Jupiter();
+        jupiter.updatePosition(1460.6, 0, 0);
     }
 
     @Test

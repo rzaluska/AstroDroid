@@ -34,6 +34,10 @@ public class SkyMap {
         }
     }
 
+    public void addObject(AstroObject astroObject) {
+        this.astroObjects.add(astroObject);
+    }
+
     public static SkyMap readFromStream(InputStream inputStream) throws IOException, JSONException {
         SkyMap skyMap = new SkyMap();
         int size = inputStream.available();
